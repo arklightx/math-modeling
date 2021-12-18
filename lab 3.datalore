@@ -1,0 +1,85 @@
+{
+  "version":"1.0",
+  "data":{
+    "sheets":[
+      {
+        "name":"Sheet",
+        "blocks":[
+          {
+            "type":"CODE",
+            "text":"import random\nimport numpy as np",
+            "outputs":[
+              {
+                "stdout":"",
+                "stderr":"",
+                "outputReprs":[
+                  
+                ],
+                "displayData":[
+                  
+                ]
+              }
+            ],
+            "meta":{
+              
+            },
+            "language":"PYTHON",
+            "inputCollapsed":false,
+            "outputCollapsed":false
+          },
+          {
+            "type":"CODE",
+            "text":"def punkt123():\n    lst = list(np.random.choice((1, 2, 3), size=100, p=(0.1, 0.65, 0.25)))\n    lst_std = np.random.standard_normal(100) + 5\n    a = 0\n    for i, item in enumerate(lst):\n        if item == 1:\n            a = np.random.choice((1, 2, 3, 4, 5), p=(0.78, 0.05, 0.03, 0.12, 0.02))\n        elif item == 2:\n            a = np.random.choice((1, 2, 3, 4, 5), p=(0.17, 0.6, 0.11, 0, 0.12))\n        elif item == 3:\n            a = np.random.choice((1, 2, 3, 4, 5), p=(0.77, 0, 0.06, 0.09, 0.08))\n        len_message = random.randint(19, 62)\n        lst[i] = [lst[i], a, len_message, lst_std[i]]\n    return lst",
+            "outputs":[
+              {
+                "stdout":"",
+                "stderr":"",
+                "outputReprs":[
+                  
+                ],
+                "displayData":[
+                  
+                ]
+              }
+            ],
+            "meta":{
+              
+            },
+            "language":"PYTHON",
+            "inputCollapsed":false,
+            "outputCollapsed":false
+          },
+          {
+            "type":"CODE",
+            "text":"lst = punkt123()\npoint_a = [0, 0, 0]\nfor i, item in enumerate(lst):\n    if item[0] == 1:\n        point_a[0] += 1\n    elif item[0] == 2:\n        point_a[1] += 1\n    elif item[0] == 3:\n        point_a[2] += 1\nprint(f'Количество сообщений данного типа: {point_a}')\nnd_lst = np.array(lst)\npoint_b = [0, 0, 0]\nfor i in range(len(lst)):\n    if lst[i][0] == 1:\n        point_b[0] += lst[i][2]\n    if lst[i][0] == 2:\n        point_b[1] += lst[i][2]\n    if lst[i][0] == 3:\n        point_b[2] += lst[i][2]\n    if lst[i][0] == 4:\n        point_b[3] += lst[i][2]\nfor i in range(len(point_b)):\n    point_b[i] = point_b[i] \/ point_a[i]\ncnt_mass = list()\ncnt_mass2 = list()\ncnt_mass3 = list()\nfor i in range(len(lst)):\n    if lst[i][0] == 1:\n        cnt_mass.append(lst[i][2])\n    if lst[i][0] == 2:\n        cnt_mass2.append(lst[i][2])\n    if lst[i][0] == 3:\n        cnt_mass3.append(lst[i][2])\nprint(f\"Средняя длина сообщения: {point_b}\\nПредельная длина сообщения: {[max(cnt_mass), max(cnt_mass2), max(cnt_mass3)]}\")\npoint_c = [0, 0, 0, 0, 0]\nlst = sorted(lst, key=lambda x: x[3])\nfor i, item in enumerate(lst):\n    if item[1] == 1:\n        point_c[0] += 1\n    elif item[1] == 2:\n        point_c[1] += 1\n    elif item[1] == 3:\n        point_c[2] += 1\n    elif item[1] == 4:\n        point_c[3] += 1\n    elif item[1] == 5:\n        point_c[4] += 1\nprint(f'Средняя частота поступления сообщения данного типа: {np.array(point_c) \/ lst[len(lst) - 1][3]}')\n\npoint_d = [{\"count\": [0, 0, 0, 0, 0], \"probability\": [], \"theory_prob\": (0.78, 0.05, 0.03, 0.12, 0.02)},\n           {\"count\": [0, 0, 0, 0, 0], \"probability\": [], \"theory_prob\": (0.17, 0.6, 0.11, 0, 0.12)},\n           {\"count\": [0, 0, 0, 0, 0], \"probability\": [], \"theory_prob\": (0.77, 0, 0.06, 0.09, 0.08)}]\nfor i, item in enumerate(lst):\n    if item[0] == 1:\n        point_d[0][\"count\"][item[1] - 1] += 1\n    elif item[0] == 2:\n        point_d[1][\"count\"][item[1] - 1] += 1\n    elif item[0] == 3:\n        point_d[2][\"count\"][item[1] - 1] += 1\nfor i in point_d:\n    sm = sum(i[\"count\"])\n    for j in range(len(i[\"count\"])):\n        i[\"probability\"].append(i[\"count\"][j] \/ sm)\n\na1 = []\na2 = []\na3 = []\n\nfor i in lst:\n    if i[0] == 1:\n        a1.append(i[3])\n    elif i[0] == 2:\n        a2.append(i[3])\n    elif i[0] == 3:\n        a3.append(i[3])\n\na1 = np.array(a1)\na2 = np.array(a2)\na3 = np.array(a3)\n\nprint(f'Мат ожидание: {[np.mean(a1), np.mean(a2), np.mean(a3)]}')\nprint(f'Дисперсия: {[np.var(a1), np.var(a3), np.var(a3)]}')\nprint(f'Стандартное отклонение: {[np.std(a1), np.std(a2), np.std(a3)]}')",
+            "outputs":[
+              {
+                "stdout":"Количество сообщений данного типа: [7, 62, 31]\nСредняя длина сообщения: [41.0, 39.33870967741935, 42.774193548387096]\nПредельная длина сообщения: [53, 59, 62]\nСредняя частота поступления сообщения данного типа: [5.20056803 4.20998365 1.48587658 0.12382305 1.36205353]\nМат ожидание: [4.714390838753542, 5.09343107264805, 5.093553903258921]\nДисперсия: [0.7053292282066186, 1.077627173011614, 1.077627173011614]\nСтандартное отклонение: [0.8398388108480214, 1.0344390661360605, 1.0380882298781804]\n",
+                "stderr":"",
+                "outputReprs":[
+                  
+                ],
+                "displayData":[
+                  
+                ]
+              }
+            ],
+            "meta":{
+              
+            },
+            "language":"PYTHON",
+            "inputCollapsed":false,
+            "outputCollapsed":false
+          }
+        ]
+      }
+    ],
+    "packageManager":"pip",
+    "baseEnvironment":"default",
+    "packages":[
+      
+    ],
+    "kernelType":"JUPYTER",
+    "language":"PYTHON"
+  }
+}
